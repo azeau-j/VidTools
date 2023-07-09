@@ -16,7 +16,12 @@ namespace VidTools.Vis
 
 			EnsureFrameInitialized();
 			materialProperties.SetColor(DrawMaterials.colorID, col);
-			Mesh mesh = meshPool.GetItem();
+			Mesh mesh;
+
+			do {
+				mesh = meshPool.GetItem();
+			} while (mesh == null);
+
 			PolygonMeshGenerator.GeneratePolygonMesh(mesh, points);
 			cmd.DrawMesh(mesh, Matrix4x4.identity, DrawMaterials.unlitMat, 0, 0, materialProperties);
 		}
@@ -30,7 +35,7 @@ namespace VidTools.Vis
 			Matrix4x4 matrix = Matrix4x4.TRS(centre, Quaternion.identity, new Vector3(size.x, size.y, 1));
 			cmd.DrawMesh(QuadMeshGenerator.GetQuadMesh(), matrix, DrawMaterials.unlitMat, 0, 0, materialProperties);
 		}
-
+		
 		public static void Quad(Vector2 a, Vector2 b, Vector2 c, Vector2 d, Color col)
 		{
 			EnsureFrameInitialized();
