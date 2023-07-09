@@ -35,6 +35,24 @@ namespace VidTools.Vis
 			Matrix4x4 matrix = Matrix4x4.TRS(centre, Quaternion.identity, new Vector3(size.x, size.y, 1));
 			cmd.DrawMesh(QuadMeshGenerator.GetQuadMesh(), matrix, DrawMaterials.unlitMat, 0, 0, materialProperties);
 		}
+
+		public static void Quad(Vector2 centre, Vector2 size, Color col, float t)
+		{
+			size = Vector2.Lerp(Vector2.zero, size, t); // animate end point
+			
+			float x0 = centre.x - (size.x / 2);
+			float x1 = centre.x + (size.x / 2);
+			
+			float y0 = centre.y - (size.y / 2);
+			float y1 = centre.y + (size.y / 2);
+
+			Vector2 x0y0 = new Vector2(x0, y0);
+			Vector2 x1y0 = new Vector2(x1, y0);
+			Vector2 x0y1 = new Vector2(x0, y1);
+			Vector2 x1y1 = new Vector2(x1, y1);
+
+			Polygon(new Vector2[] { x0y0, x1y0, x1y1, x0y1 }, col);
+		}
 		
 		public static void Quad(Vector2 a, Vector2 b, Vector2 c, Vector2 d, Color col)
 		{
